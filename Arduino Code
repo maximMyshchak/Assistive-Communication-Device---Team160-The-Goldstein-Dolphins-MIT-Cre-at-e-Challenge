@@ -1,0 +1,73 @@
+#include <SoftwareSerial.h>
+
+
+SoftwareSerial BT(10, 11);
+
+
+const int btn1 = 2;
+const int btn2 = 3;
+const int btn3 = 4;
+const int btn4 = 5;
+const int led  = 6;
+
+
+int last1 = HIGH, last2 = HIGH, last3 = HIGH, last4 = HIGH;
+
+
+void flashLED() {
+  digitalWrite(led, HIGH); delay(150);
+  digitalWrite(led, LOW);  delay(150);
+  digitalWrite(led, HIGH); delay(150);
+  digitalWrite(led, LOW);
+}
+
+
+void setup() {
+  pinMode(btn1, INPUT_PULLUP);
+  pinMode(btn2, INPUT_PULLUP);
+  pinMode(btn3, INPUT_PULLUP);
+  pinMode(btn4, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
+  BT.begin(9600);
+  Serial.begin(9600);
+}
+
+
+void loop() {
+  int s1 = digitalRead(btn1);
+  int s2 = digitalRead(btn2);
+  int s3 = digitalRead(btn3);
+  int s4 = digitalRead(btn4);
+
+
+  if (last1 == HIGH && s1 == LOW)
+  { BT.print("1");
+  Serial.println("Button 1");
+  flashLED();
+  delay(300); }
+
+
+  if (last2 == HIGH && s2 == LOW)
+  { BT.print("2");
+  Serial.println("Button 2");
+  flashLED(); delay(300); }
+
+
+  if (last3 == HIGH && s3 == LOW)
+  { BT.print("3");
+  Serial.println("Button 3");
+  flashLED(); delay(300); }
+
+
+  if (last4 == HIGH && s4 == LOW)
+  { BT.print("4");
+  Serial.println("Button 4");
+  flashLED();
+  delay(300); }
+
+
+  last1 = s1;
+  last2 = s2;
+  last3 = s3;
+  last4 = s4;
+}
